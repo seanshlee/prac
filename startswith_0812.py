@@ -71,15 +71,10 @@ collector_col = ['nouns', 'verbs', 'adjectives']
 a_collector = pd.DataFrame(np.zeros((1, 3)), columns=collector_col)
 
 pos = okt.pos(sts[0])
-type(pos)
-len(pos)
-pos[0:10]
-pos
+
 pdf = pd.DataFrame(pos)
 pdf.head()
 pdf.columns = ['words', 'pos']
-len(pdf)
-pdf.head()
 
 nouns = pdf[pdf.pos == 'Noun']
 verbs = pdf[pdf.pos == 'Verb']
