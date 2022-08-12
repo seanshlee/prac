@@ -10,7 +10,7 @@ import re
 import numpy as np
 from konlpy.tag import Okt 
 from collections import Counter #빈도 탐색 
-from konlpy.tag import * 
+from konlpy.tag import *
 okt = Okt()
 
 df1 = pd.read_csv("C:/Users/Master/블로그_210701.csv")
@@ -67,14 +67,14 @@ sts = sts.to_list()  #sts = 블로그 원문 리스트 (특수문자, 불용어 
 ##################  품사 태깅 반복문 
 edf = pd.DataFrame()
 
-collector_col = ['nouns', 'verbs', 'adjectives']
+collector_col = ['Nouns', 'Verbs', 'Adjectives']
 a_collector = pd.DataFrame(np.zeros((1, 3)), columns=collector_col)
 
 pos = okt.pos(sts[0])
 
 pdf = pd.DataFrame(pos)
 pdf.head()
-pdf.columns = ['words', 'pos']
+pdf.columns = ['Words', 'Pos']
 
 nouns = pdf[pdf.pos == 'Noun']
 verbs = pdf[pdf.pos == 'Verb']
