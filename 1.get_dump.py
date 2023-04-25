@@ -1,4 +1,5 @@
 
+from mysql import connector
 import pymysql
 from sqlalchemy import create_engine
 from pandas.errors import DatabaseError
@@ -24,6 +25,43 @@ class Database :
             df.to_sql(name=tb,con=self.engine,if_exists='replace',index=False)
         except ValueError as e :
             print(f'!!!!!!!! Error Occured: {e}')
+    
+    def openDB(self) :
+        self.connector = connector.connect(
+            database=self.database
+            , host=self.host, port=self.port
+            , user=self.user, password=self.password
+        )
+        self.cursor = self.connector.cursor()
+
+    def closeDB(self) :
+        self.cursor.close()
+        self.connector.close()
+
+    def select(self,query:str) : pass
+
+    def insert(self,query:str) :
+        self.openDB()
+        self.cursor.execute(query)
+        self.connector.commit()
+        self.closeDB()
+
+    def delete(self,query:str) : pass
+    def update(self,query:str) : pass
+
+    def create(self,query:str) : 
+        self.openDB()
+        self.cursor.execute(query)
+        self.connector.commit()
+        self.closeDB()
+
+    def createRawData(self) : 
+        query = ''
+        self.create(query)
+
+    def insertRawData(self,dt:pd.DataFrame) : 
+        query = ''
+        self.insert(query)
 
 
 path = './data/'
