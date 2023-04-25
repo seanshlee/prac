@@ -38,7 +38,12 @@ class Database :
         self.cursor.close()
         self.connector.close()
 
-    def select(self,query:str) : pass
+    def select(self,query:str) : 
+        self.openDB()
+        self.cursor.execute(query)
+        result = self.preprocess(self.cursor)
+        self.closeDB()
+        return result
 
     def insert(self,query:str) :
         self.openDB()
@@ -88,11 +93,15 @@ class Database :
             query += ')'
             self.insert(query)
 
+    def preprocess(self,cursor) : pass
+    def selectRawData(self) :
+        query = ''
+        return self.select(query)
 
 path = './data/'
 file = 'Expanded_data_with_more_features.csv'
 path_file = os.path.join(path,file)
-data = pd.read_csv(path_file)
+raw_data = pd.read_csv(path_file)
 
 columns_ordered = [
     'Unnamed: 0'
@@ -103,12 +112,14 @@ columns_ordered = [
     , 'PracticeSport', 'WklyStudyHours', 'TestPrep'
     , 'MathScore', 'ReadingScore', 'WritingScore'
 ]
-data = data.reindex(columns=columns_ordered)
+raw_data = raw_data.reindex(columns=columns_ordered)
 
 db = Database()
 
 # db.createEngine()
-# db.toSql(data)
+# db.toSql(raw_data)
 
-db.createRawData()
-db.insertRawData(data)
+# db.createRawData()
+# db.insertRawData(raw_data)
+
+target_data = db.selectRawData()
